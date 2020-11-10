@@ -15,6 +15,8 @@ void typewriter(const char* letter, int rate) {
     fflush(stdout);
     // 1,000,000
     //     1,000 = 1 millisecond
+	//added stuff for nid test 1
+
     usleep(1000 * rate);
   }
 }
