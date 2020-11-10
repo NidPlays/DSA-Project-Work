@@ -4,7 +4,7 @@
 #include <string.h>
 
 int count=0;
-//int randomage[100];
+//add more pincode then increase range in randrompincodegen
 int randrompincode[]={560098,560072,560004,560062,560085,560090,560070,560066,560050,560008};
 
 int singlerand(int lower, int upper) 
