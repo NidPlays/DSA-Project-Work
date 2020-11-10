@@ -158,13 +158,13 @@ int main(void)
 	int ch, i, n; 
 	while (1)
 	{
-		typewriter("\n1.Insert n details of voters ",30);
-		typewriter("\n2.Insert at beginning",30);
-		typewriter("\n3.Random Generate n voters",30);
+		typewriter("\n1.Insert n details of voters ",35);
+		typewriter("\n2.Insert at beginning",35);
+		typewriter("\n3.Random Generate n voters",35);
 		//printf("\n4.todo");
-		typewriter("\n5.Display",30);
-		typewriter("\n6.Exit",30);
-		typewriter("\nEneter your choice : ",30);
+		typewriter("\n5.Display",35);
+		typewriter("\n6.Exit",35);
+		typewriter("\nEneter your choice : ",35);
 		scanf("%d", &ch);
 		switch (ch)
 		{
