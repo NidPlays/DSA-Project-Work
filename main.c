@@ -2,10 +2,22 @@
 #include <stdlib.h> 
 #include <time.h> 
 #include <string.h>
+#include <unistd.h>
+
 
 int count=0;
 //add more pincode then increase range in randrompincodegen
 int randrompincode[]={560098,560072,560004,560062,560085,560090,560070,560066,560050,560008};
+
+void typewriter(const char* letter, int rate) {
+  for (int i = 0; letter[i] != '\0'; i++) {
+    printf("%c", letter[i]);
+    fflush(stdout);
+    // 1,000,000
+    //     1,000 = 1 millisecond
+    usleep(1000 * rate);
+  }
+}
 
 int singlerand(int lower, int upper) 
 { 
@@ -119,8 +131,8 @@ void display()
 	{
 		temp = first;
 		calculatestats();
-		printf("\nThere are %d node(s) \n",count);
-		printf("The node is \n");
+		printf("\nThere are %d voter(s) \n",count);
+		printf("The voter is \n");
 		printf("VoterID |  Age  |\tPincode | gender \t \n");
 		while (temp != NULL)
 		{
@@ -141,13 +153,13 @@ int main(void)
 	int ch, i, n; 
 	while (1)
 	{
-		printf("\n1.Insert n details of voters ");
-		printf("\n2.Insert at beginning");
-		printf("\n3.Random Generate n voters");
+		typewriter("\n1.Insert n details of voters ",30);
+		typewriter("\n2.Insert at beginning",30);
+		typewriter("\n3.Random Generate n voters",30);
 		//printf("\n4.todo");
-		printf("\n5.Display");
-		printf("\n6.Exit");
-		printf("\nEneter your choice : ");
+		typewriter("\n5.Display",30);
+		typewriter("\n6.Exit",30);
+		typewriter("\nEneter your choice : ",30);
 		scanf("%d", &ch);
 		switch (ch)
 		{
