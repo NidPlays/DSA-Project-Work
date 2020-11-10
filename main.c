@@ -45,10 +45,32 @@ struct node
 
 void create()
 {
+	int voterid,age,pincode,gender;
 	temp = (struct node *)malloc(sizeof(struct node));
-	printf("\nEnter the voter details \n");
-	printf("\nVoter id(int), Voter age(int), pincode(int),and gender(0 for male and 1 for female) :");
-	scanf("%d %d %d %d", &temp->voterid,&temp->age,&temp->pincode,&temp->gender);
+	voter:
+		printf("\nEnter the voter details \n");
+		printf("\nVoter id(int), Voter age(int), pincode(int),and gender(0 for male and 1 for female) :");
+		scanf("%d %d %d %d", &voterid,&age,&pincode,&gender);
+	if(age<18)
+	{
+		printf("\nAge is %d\n",age);
+		printf("\nIneligible\n");
+		printf("\nHow did you get your VoterID???\n");
+		goto voter;
+	}
+	else if(age>100)
+	{
+		printf("\nAge is %d\n",age);
+		printf("\n So Old are you alive\n");
+		goto voter;
+	}
+	else
+	{
+		temp->voterid = voterid;
+		temp->age = age;
+		temp->pincode = pincode;
+		temp->gender = gender;
+	}
 	temp->next = NULL;
 	count++;
 }
@@ -145,8 +167,10 @@ void display()
 			char gender1[20];
 			if(temp->gender== male)
 				strcpy(gender1,"Male");
-			else
+			else if(temp->gender== female)
 				strcpy(gender1,"Female");
+			else
+				strcpy(gender1,"Prefer not to say");
 			printf("%d\t\t %d\t \t%d\t %s \n", temp->voterid,temp->age,temp->pincode,gender1);
 			temp = temp->next;
 		}
@@ -162,7 +186,7 @@ int main(void)
 		typewriter("\n1.Insert n details of voters ",35);
 		typewriter("\n2.Insert at beginning",35);
 		typewriter("\n3.Random Generate n voters",35);
-		//printf("\n4.todo");
+		typewriter("\n4.Voter Stats",35);
 		typewriter("\n5.Display",35);
 		typewriter("\n6.Exit",35);
 		typewriter("\nEneter your choice : ",35);
@@ -182,6 +206,9 @@ int main(void)
 				printf("\nEnter the value of n ");
 				scanf("%d", &n);
 				insertrandomvoters(n);
+				break;
+			case 4:
+				calculatestats();
 				break;
 			case 5:
 				display();
