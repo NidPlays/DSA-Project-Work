@@ -84,7 +84,8 @@ void insertrandomvoters(int n)
 void calculatestats()
 {
 	//todo add calculatestats work
-  //leave it to phanish
+  	//leave it to phanish
+  //one more comment
 }
 
 void insertatfirst()
