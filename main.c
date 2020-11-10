@@ -83,10 +83,10 @@ void insertrandomvoters(int n)
 
 void calculatestats()
 {
-	//todo add calculatestats work
+	  //todo add calculatestats work
   	//leave it to phanish
-  	//one more comment
-	//for nid to send to gihub
+    //one more comment
+	  //for nid to send to gihub
 }
 
 void insertatfirst()
