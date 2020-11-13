@@ -71,7 +71,7 @@ void create()
 		temp->pincode = pincode;
 		temp->gender = gender;
 	}
-	printf("\nEnter the Candidate: \n1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi\n NOTA is any other number \n");
+	printf("\nEnter the Candidate: \n 1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi\n NOTA is any other number \n");
 	scanf("%d",&temp->candidate);
 	temp->next = NULL;
 	count++;
@@ -106,13 +106,104 @@ void insertrandomvoters(int n)
 	}
 }
 
+
+void individualStats()
+{	
+	char candidates[5][20]={"Murthy","Ramprasad","GuruPrasad","Modi","Rahul Gandhi"};
+	int candidate1=0,candidate2=0,candidate3=0,candidate4=0,candidate5=0;
+	if (first == NULL)
+	{
+		printf("\n list is empty\n");
+		return;
+	}
+	//do individual candidate stats here
+	//1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi
+	temp = first;
+	int vcount=0;
+  	while(temp!= NULL)
+	{
+		if(temp->candidate >= 1 && temp->candidate <= 5)
+			vcount++;
+		switch(temp->candidate)
+		{
+			case 1:
+				candidate1++;
+				break;
+			case 2:
+				candidate2++;
+				break;
+			case 3:
+				candidate3++;
+				break;
+			case 4:
+				candidate4++;
+				break;
+			case 5:
+				candidate5++;
+				break;
+		}
+		temp=temp->next;
+	}
+	printf("\nThere are %d voter(s) \n",count);
+	printf("\nTotal Votes issued for candidates (votes - nota): %d\n",vcount);
+	printf("\n Candidate 1 (%s)       got %d votes",candidates[0],candidate1);
+	printf("\n Candidate 2 (%s)    got %d votes",candidates[1],candidate2);
+	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidate3);
+	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidate4);
+	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidate5);
+	printf("\n---|THE WINNER OF THE ELECTION BY AQUIREING MAXIMUM VOTES|---");
+
+}
+
+
 void calculatestats()
 {
-	//todo add calculatestats work
-  	//leave it to phanish
-  	//one more comment
-	//for nid to send to gihub
-  
+	if (first == NULL)
+	{
+		printf("\n list is empty\n");
+		return;
+	}
+	// TODO WORK ON WHY PINCODE DOES NOT WORK
+	int vcount = 0;
+	int less25 = 0;
+	int less50 = 0;
+	int less100 = 0;
+	int mvoter = 0;
+	int fvoter = 0;
+	
+	int pin_arr[]={0};
+	int pincodes[10]={560098,560072,560004,560062,560085,560090,560070,560066,560050,560008};
+	temp = first;
+  	while(temp!= NULL)
+	{
+		if(temp->candidate >= 1 && temp->candidate <= 5)
+			vcount++;
+		if(temp->age <= 25)
+			less25++;
+		if(temp->age > 25 && temp->age <=50)
+			less50++;
+		if(temp->age > 50 && temp->age <= 100)
+			less100++;
+		if(temp->gender == 0)
+			mvoter++;
+		if(temp->gender == 1)
+			fvoter++;
+		/* pin_arr[temp->pincode]++; */
+		temp=temp->next;
+	}
+	printf("\nThere are %d voter(s) \n",count);
+	printf("\nTotal Votes issued for candidates (votes - nota): %d\n",vcount);
+	printf("Total NOTA votes: %d\n",count-vcount);
+	printf("\nNumber of voters in age group(18-25):%d\n",less25);
+	printf("Number of voters in age group(25-50):%d\n",less50);
+	printf("Number of voters in age group(50-100):%d\n",less100);
+	printf("\nNumber of male voters : %d\n",mvoter);
+	printf("Number of female voters : %d\n",fvoter);
+	/* for(int i=0;i<10;i++)
+	{	
+		int current_pin= pincodes[i];
+		printf("No of votes in pincode %d is :%d \n",current_pin,pin_arr[current_pin]);
+	} */
 }
 
 void insertatfirst()
@@ -161,7 +252,7 @@ void display()
 	else
 	{
 		temp = first;
-		calculatestats();
+		//calculatestats();
 		printf("\nThere are %d voter(s) \n",count);
 		printf("The voter is \n");
 		printf("VoterID |  Age  |\tPincode | gender \t | Voted Candidate \n");
@@ -209,15 +300,16 @@ int main(void)
 		typewriter("\n1.Insert n details of voters ",35);
 		typewriter("\n2.Insert at beginning",35);
 		typewriter("\n3.Random Generate n voters",35);
-		//typewriter("\n4.todo");
-		typewriter("\n5.Display",35);
-		typewriter("\n6.Exit",35);
+		typewriter("\n4.Display Calulated stats(classification based stats)",35);
+		typewriter("\n5.Display Individual Candidate stats(classification based candidate)",35);
+		typewriter("\n6.Display",35);
+		typewriter("\n7.Exit",35);
 		typewriter("\nEneter your choice : ",35);
 		scanf("%d", &ch);
 		switch (ch)
 		{
 			case 1:
-				printf("\nEnter the value of n ");
+				printf("\nEnter the value of n: ");
 				scanf("%d", &n);
 				for (i = 0; i < n; i++)
 					insertatfirst();
@@ -232,14 +324,17 @@ int main(void)
 				break;
 			case 4:
 				calculatestats();
-				break;
+				break;			
 			case 5:
-				display();
+				individualStats();
 				break;
 			case 6:
+				display();
+				break;
+			case 7:
 				exit(1);
 			default:
-				printf("\n Wrong Input, try again");
+				printf("\n Invalid Input, try again");
 		}
 	}
  	return 0;
