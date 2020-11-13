@@ -49,6 +49,8 @@ void create()
 	printf("\nEnter the voter details \n");
 	printf("\nVoter id(int), Voter age(int), pincode(int),and gender(0 for male and 1 for female) :");
 	scanf("%d %d %d %d", &temp->voterid,&temp->age,&temp->pincode,&temp->gender);
+	printf("\nEnter the Candidate: \n1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi\n NOTA is any other number \n");
+	scanf("%d",&temp->candidate);
 	temp->next = NULL;
 	count++;
 }
@@ -59,6 +61,7 @@ void createrandom()
 	temp->age = singlerand(18, 70);
 	temp->pincode= randrompincodegen();
 	temp->gender=singlerand(0, 1);
+	temp->candidate=singlerand(1, 6);
 	temp->next = NULL;
 	count++;
 }
@@ -138,15 +141,37 @@ void display()
 		calculatestats();
 		printf("\nThere are %d voter(s) \n",count);
 		printf("The voter is \n");
-		printf("VoterID |  Age  |\tPincode | gender \t \n");
+		printf("VoterID |  Age  |\tPincode | gender \t | Voted Candidate \n");
 		while (temp != NULL)
 		{
 			char gender1[20];
 			if(temp->gender== male)
-				strcpy(gender1,"Male");
+				strcpy(gender1,"Male    ");
 			else
-				strcpy(gender1,"Female");
-			printf("%d\t\t %d\t \t%d\t %s \n", temp->voterid,temp->age,temp->pincode,gender1);
+				strcpy(gender1,"Female ");
+			char candidate[20];
+			//1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi
+			switch(temp->candidate)
+			{
+				case 1:
+					strcpy(candidate,"Murthy");
+					break;
+				case 2:
+					strcpy(candidate,"Ramprasad");
+					break;
+				case 3:
+					strcpy(candidate,"GuruPrasad");
+					break;
+				case 4:
+					strcpy(candidate,"Modi");
+					break;
+				case 5:
+					strcpy(candidate,"Rahul Gandhi");
+					break;
+				default:
+					strcpy(candidate,"NOTA");
+			}
+			printf("%d\t\t %d\t \t%d\t %s \t %s\n", temp->voterid,temp->age,temp->pincode,gender1,candidate);
 			temp = temp->next;
 		}
 	}
@@ -161,7 +186,7 @@ int main(void)
 		typewriter("\n1.Insert n details of voters ",35);
 		typewriter("\n2.Insert at beginning",35);
 		typewriter("\n3.Random Generate n voters",35);
-		//printf("\n4.todo");
+		//typewriter("\n4.todo");
 		typewriter("\n5.Display",35);
 		typewriter("\n6.Exit",35);
 		typewriter("\nEneter your choice : ",35);
@@ -182,6 +207,8 @@ int main(void)
 				scanf("%d", &n);
 				insertrandomvoters(n);
 				break;
+      case 4:
+
 			case 5:
 				display();
 				break;
