@@ -106,11 +106,20 @@ void insertrandomvoters(int n)
 	}
 }
 
+int largestinArray(int arr[], int n)
+{
+	int i; 
+    int max = arr[0]; 
+    for (i = 1; i < n; i++) 
+        if (arr[i] > max) 
+            max = arr[i]; 
+    return max; 
+}
 
 void individualStats()
 {	
 	char candidates[5][20]={"Murthy","Ramprasad","GuruPrasad","Modi","Rahul Gandhi"};
-	int candidate1=0,candidate2=0,candidate3=0,candidate4=0,candidate5=0;
+	int candidatevotes[5]={0};
 	if (first == NULL)
 	{
 		printf("\n list is empty\n");
@@ -127,34 +136,50 @@ void individualStats()
 		switch(temp->candidate)
 		{
 			case 1:
-				candidate1++;
+				candidatevotes[0]++;
 				break;
 			case 2:
-				candidate2++;
+				candidatevotes[1]++;
 				break;
 			case 3:
-				candidate3++;
+				candidatevotes[2]++;
 				break;
 			case 4:
-				candidate4++;
+				candidatevotes[3]++;
 				break;
 			case 5:
-				candidate5++;
+				candidatevotes[4]++;
 				break;
 		}
 		temp=temp->next;
 	}
+
+	int n = sizeof(candidatevotes)/sizeof(candidatevotes[0]);
+	int largest = largestinArray(candidatevotes, n);
+
+	char winnercan[20];
+	if(candidatevotes[0]== largest)
+		strcpy(winnercan,"Murthy");
+	else if(candidatevotes[1]== largest)
+		strcpy(winnercan,"Ramprasad");
+	else if(candidatevotes[2]== largest)
+		strcpy(winnercan,"GuruPrasad");
+	else if(candidatevotes[3]== largest)
+		strcpy(winnercan,"Modi");
+	else if(candidatevotes[4]== largest)
+		strcpy(winnercan,"Rahul Gandhi");
+
 	printf("\nThere are %d voter(s) \n",count);
 	printf("\nTotal Votes issued for candidates (votes - nota): %d\n",vcount);
-	printf("\n Candidate 1 (%s)       got %d votes",candidates[0],candidate1);
-	printf("\n Candidate 2 (%s)    got %d votes",candidates[1],candidate2);
-	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidate3);
-	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidate4);
-	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidate5);
-	printf("\n---|THE WINNER OF THE ELECTION BY AQUIREING MAXIMUM VOTES|---");
+	printf("\n Candidate 1 (%s)       got %d votes",candidates[0],candidatevotes[0]);
+	printf("\n Candidate 2 (%s)    got %d votes",candidates[1],candidatevotes[1]);
+	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidatevotes[2]);
+	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
+	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
+	printf("\n---|THE WINNER OF THE ELECTION BY AQUIREING MAXIMUM VOTES|--- \n");
+	printf("Winner:  %s :%d with Largest Votes \n ",winnercan,largest);
 
 }
-
 
 void calculatestats()
 {
