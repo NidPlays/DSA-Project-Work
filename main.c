@@ -3,7 +3,7 @@
 #include <time.h> 
 #include <string.h>
 #include <unistd.h>
-
+#include<ctype.h>
 
 int count=0;
 //add more pincode then increase range in randrompincodegen
@@ -12,19 +12,19 @@ int randrompincode[]={560098,560072,560004,560062,560085,560090,560070,560066,56
 void typewriter(const char* letter, int rate) {
   for (int i = 0; letter[i] != '\0'; i++) {
     printf("%c", letter[i]);
-    fflush(stdout);
+    fflush(stdout);//flushes the buffer
     // 1,000,000
-    //     1,000 = 1 millisecond
+    // 1,000 = 1 millisecond
 	//added stuff for nid test 1
 
-    usleep(1000 * rate);
+    usleep(1000 * rate);//does micro sleep for rate higher rate slower typewriter, letter is the char buffer
   }
 }
 
 int singlerand(int lower, int upper) 
 { 
-	int i; 
-	int num = (rand() % (upper - lower + 1)) + lower; 
+	int num = (rand() % (upper - lower + 1)) + lower;
+	// printf("%d\n",num); //for debugging:
 	return num;
 }
 
@@ -277,7 +277,6 @@ void display()
 	else
 	{
 		temp = first;
-		//calculatestats();
 		printf("\nThere are %d voter(s) \n",count);
 		printf("The voter is \n");
 		printf("VoterID |  Age  |\tPincode | gender \t | Voted Candidate \n");
@@ -319,9 +318,11 @@ void display()
 int main(void) 
 {
 	srand(time(0));
+	typewriter("Hello! Welcome To the program \nThis is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063) \nThis program is a menu driven program which also focuses on ease of use and helping us to understand C data structures better \n\t\t\t\t\t\tThank you.\n", 35);
 	int ch, i, n; 
 	while (1)
 	{
+		typewriter("\n\t\t\t--Menu--\n", 35);
 		typewriter("\n1.Insert n details of voters ",35);
 		typewriter("\n2.Insert at beginning",35);
 		typewriter("\n3.Random Generate n voters",35);
