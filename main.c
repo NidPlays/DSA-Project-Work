@@ -3,7 +3,7 @@
 #include <time.h> 
 #include <string.h>
 #include <unistd.h>
-#include<ctype.h>
+#include <ctype.h>
 
 int count=0;
 //add more pincode then increase range in randrompincodegen
@@ -40,6 +40,7 @@ struct node
 	int voterid,age,pincode;
 	enum gender{male=0, female=1}gender;
 	int candidate;
+	enum missed{notmiss=0, miss=1}missed;
 	struct node * next;
 }*first = NULL, *last = NULL, *temp = NULL, *temp1 = NULL;
 
@@ -78,12 +79,21 @@ void create()
 }
 void createrandom()
 {
+	int missing= singlerand(0, 10);
 	temp = (struct node *)malloc(sizeof(struct node));
 	temp->voterid = singlerand(42069, 69420);
 	temp->age = singlerand(18, 70);
 	temp->pincode= randrompincodegen();
 	temp->gender=singlerand(0, 1);
 	temp->candidate=singlerand(1, 6);
+	if (missing<1)
+	{
+		temp->missed=1;
+	}
+	else
+	{
+		temp->missed=0;
+	}
 	temp->next = NULL;
 	count++;
 }
@@ -133,23 +143,26 @@ void individualStats()
 	{
 		if(temp->candidate >= 1 && temp->candidate <= 5)
 			vcount++;
-		switch(temp->candidate)
+		if(temp->missed==notmiss)
 		{
-			case 1:
-				candidatevotes[0]++;
-				break;
-			case 2:
-				candidatevotes[1]++;
-				break;
-			case 3:
-				candidatevotes[2]++;
-				break;
-			case 4:
-				candidatevotes[3]++;
-				break;
-			case 5:
-				candidatevotes[4]++;
-				break;
+			switch(temp->candidate)
+				{
+				case 1:
+					candidatevotes[0]++;
+					break;
+				case 2:
+					candidatevotes[1]++;
+					break;
+				case 3:
+					candidatevotes[2]++;
+					break;
+				case 4:
+					candidatevotes[3]++;
+					break;
+				case 5:
+					candidatevotes[4]++;
+					break;
+			}
 		}
 		temp=temp->next;
 	}
@@ -176,8 +189,8 @@ void individualStats()
 	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidatevotes[2]);
 	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
 	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
-	printf("\n---|THE WINNER OF THE ELECTION BY AQUIREING MAXIMUM VOTES|--- \n");
-	printf("Winner:  %s :%d with Largest Votes \n ",winnercan,largest);
+	printf("\n██████████████ELECTION WINNER ██████████████ \n");
+	printf(" \t\t\t\t%s\n           with Largest Votes %d\n████████████████████████████████████████████\n\n",winnercan,largest);
 
 }
 
@@ -195,12 +208,15 @@ void calculatestats()
 	int less100 = 0;
 	int mvoter = 0;
 	int fvoter = 0;
-	
+	int missedv =0;
+
 	int pin_arr[]={0};
 	int pincodes[10]={560098,560072,560004,560062,560085,560090,560070,560066,560050,560008};
 	temp = first;
   	while(temp!= NULL)
 	{
+		if(temp->missed == 1)
+			missedv++;
 		if(temp->candidate >= 1 && temp->candidate <= 5)
 			vcount++;
 		if(temp->age <= 25)
@@ -216,14 +232,17 @@ void calculatestats()
 		/* pin_arr[temp->pincode]++; */
 		temp=temp->next;
 	}
+	vcount-=missedv;
+
 	printf("\nThere are %d voter(s) \n",count);
-	printf("\nTotal Votes issued for candidates (votes - nota): %d\n",vcount);
-	printf("Total NOTA votes: %d\n",count-vcount);
+	printf("\nTotal Votes issued for candidates (votes - nota - missed): %d\n",vcount);
+	printf("Total NOTA votes: %d\n",count-vcount-missedv);
 	printf("\nNumber of voters in age group(18-25):%d\n",less25);
 	printf("Number of voters in age group(25-50):%d\n",less50);
 	printf("Number of voters in age group(50-100):%d\n",less100);
 	printf("\nNumber of male voters : %d\n",mvoter);
 	printf("Number of female voters : %d\n",fvoter);
+	printf("\nNumber of Voters Who Missed to vote: %d\n",missedv);
 	/* for(int i=0;i<10;i++)
 	{	
 		int current_pin= pincodes[i];
@@ -278,10 +297,15 @@ void display()
 	{
 		temp = first;
 		printf("\nThere are %d voter(s) \n",count);
-		printf("The voter is \n");
-		printf("VoterID |  Age  |\tPincode | gender \t | Voted Candidate \n");
+		printf("The voter is \n\n");
+		printf("VoterID |  Age  |\tPincode |   gender  | Voted Candidate | Status \n");
 		while (temp != NULL)
 		{
+			char missed[20];
+			if(temp->missed== miss)
+				strcpy(missed,"   Missed    ");
+			else
+				strcpy(missed,"   Not Missed ");
 			char gender1[20];
 			if(temp->gender== male)
 				strcpy(gender1,"Male    ");
@@ -292,24 +316,26 @@ void display()
 			switch(temp->candidate)
 			{
 				case 1:
-					strcpy(candidate,"Murthy");
+					strcpy(candidate,"Murthy       ");
 					break;
 				case 2:
-					strcpy(candidate,"Ramprasad");
+					strcpy(candidate,"Ramprasad    ");
 					break;
 				case 3:
 					strcpy(candidate,"GuruPrasad");
 					break;
 				case 4:
-					strcpy(candidate,"Modi");
+					strcpy(candidate,"Modi         ");
 					break;
 				case 5:
 					strcpy(candidate,"Rahul Gandhi");
 					break;
 				default:
-					strcpy(candidate,"NOTA");
+					strcpy(candidate,"NOTA         ");
 			}
-			printf("%d\t\t %d\t \t%d\t %s \t %s\n", temp->voterid,temp->age,temp->pincode,gender1,candidate);
+			if(temp->missed== miss)
+				strcpy(candidate,"------    ");
+			printf("%d\t\t %d\t \t%d\t %s \t %s \t %s\n", temp->voterid,temp->age,temp->pincode,gender1,candidate,missed);
 			temp = temp->next;
 		}
 	}
@@ -318,19 +344,20 @@ void display()
 int main(void) 
 {
 	srand(time(0));
-	typewriter("Hello! Welcome To the program \nThis is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063) \nThis program is a menu driven program which also focuses on ease of use and helping us to understand C data structures better \n\t\t\t\t\t\tThank you.\n", 35);
+	//typewriter("Hello! Welcome To the program \nThis is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063). \nThis program is a menu driven program which also focuses on ease of use and helping us to understand C data structures better. \n\t\t\t\t\t\tThank you.\n", 35);
 	int ch, i, n; 
 	while (1)
 	{
-		typewriter("\n\t\t\t--Menu--\n", 35);
+		printf("\n ██████████--Menu--██████████\n");
 		typewriter("\n1.Insert n details of voters ",35);
 		typewriter("\n2.Insert at beginning",35);
 		typewriter("\n3.Random Generate n voters",35);
 		typewriter("\n4.Display Calulated stats(classification based stats)",35);
 		typewriter("\n5.Display Individual Candidate stats(classification based candidate)",35);
-		typewriter("\n6.Display",35);
+		typewriter("\n6.Display voters",35);
 		typewriter("\n7.Exit",35);
-		typewriter("\nEneter your choice : ",35);
+		printf("\n█████████████████████████████\n\n");
+		typewriter("\nEnter your choice : ",35);
 		scanf("%d", &ch);
 		switch (ch)
 		{
