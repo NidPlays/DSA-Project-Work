@@ -215,7 +215,7 @@ void individualStats()
 	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
 	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
 	printf("\n██████████████ ELECTION WINNER ██████████████ \n");
-	printf(" \t\t\t\t-%s-\n            with Largest Votes-%d\n████████████████████████████████████████████\n\n",winnercan,largest);
+	printf(" \t\t\t\t-%s-\n            with Largest Votes-%d\n█████████████████████████████████████████████\n\n",winnercan,largest);
 
 }
 
