@@ -1,3 +1,9 @@
+/*
+Voting System Simulation using linked list (Project)
+This is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063).
+Do not use this code without permission from the authors ^^
+*/
+
 #include <stdio.h>
 #include <stdlib.h> 
 #include <time.h> 
@@ -17,7 +23,7 @@ void typewriter(const char* letter, int rate) {
     // 1,000 = 1 millisecond
 	//added stuff for nid test 1
 
-    usleep(1000 * rate);//does micro sleep for rate higher rate slower typewriter, letter is the char buffer
+    usleep(100 * rate);//does micro sleep for rate higher rate slower typewriter, letter is the char buffer
   }
 }
 
@@ -59,10 +65,15 @@ void create()
 		printf("\nHow did you get your VoterID???\n");
 		goto voter;
 	}
-	else if(age>100)
+	else if(age>110)
 	{
 		printf("\nAge is %d\n",age);
 		printf("\n So Old are you alive\n");
+		goto voter;
+	}
+	else if(gender != 0 && gender != 1)
+	{
+		printf("\nPlease enter either 0 or 1 for gender, we currently do not support any other inputs for gender \n");
 		goto voter;
 	}
 	else
@@ -72,7 +83,21 @@ void create()
 		temp->pincode = pincode;
 		temp->gender = gender;
 	}
-	printf("\nEnter the Candidate: \n 1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi\n NOTA is any other number \n");
+	printf("\nEnter the Candidate:  NOTA is any other number (other than 1,2,3,4,5)\n ");// 1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi\n 
+	printf(".----------------.    .----------------.    .----------------.    .----------------.    .----------------.   \n");
+	printf("| .--------------. |  | .--------------. |  | .--------------. |  | .--------------. |  | .--------------. |  \n");
+	printf("| |     __       | |  | |    _____     | |  | |    ______    | |  | |   _    _     | |  | |   _______    | |  \n");
+	printf("| |    /  |      | |  | |   / ___ `.   | |  | |   / ____ `.  | |  | |  | |  | |    | |  | |  |  _____|   | |  \n");
+	printf("| |    `| |      | |  | |  |_/___) |   | |  | |   `'  __) |  | |  | |  | |__| |_   | |  | |  | |____     | |  \n");
+	printf("| |     | |      | |  | |   .'____.'   | |  | |   _  |__ '.  | |  | |  |____   _|  | |  | |  '_.____''.  | |  \n");
+	printf("| |    _| |_     | |  | |  / /____     | |  | |  | \\____) |  | |  | |      _| |_   | |  | |  | \\____) |  | |  \n");
+	printf("| |   |_____|    | |  | |  |_______|   | |  | |   \\______.'  | |  | |     |_____|  | |  | |   \\______.'  | |  \n");
+	printf("| |              | |  | |              | |  | |              | |  | |              | |  | |              | |  \n");
+	printf("| '--------------' |  | '--------------' |  | '--------------' |  | '--------------' |  | '--------------' |  \n");
+	printf(" '----------------'    '----------------'    '----------------'    '----------------'    '----------------'   \n");
+	printf("\n     Murthy             Ramprasad              GuruPrasad               Modi               Rahul Gandhi    \n");
+	
+	printf("\nEnter Your Choice: ");
 	scanf("%d",&temp->candidate);
 	temp->next = NULL;
 	count++;
@@ -139,8 +164,11 @@ void individualStats()
 	//1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi
 	temp = first;
 	int vcount=0;
+	int missedv=0;
   	while(temp!= NULL)
 	{
+		if(temp->missed == 1)
+			missedv++;
 		if(temp->candidate >= 1 && temp->candidate <= 5)
 			vcount++;
 		if(temp->missed==notmiss)
@@ -166,7 +194,7 @@ void individualStats()
 		}
 		temp=temp->next;
 	}
-
+	vcount -= missedv;
 	int n = sizeof(candidatevotes)/sizeof(candidatevotes[0]);
 	int largest = largestinArray(candidatevotes, n);
 
@@ -183,14 +211,14 @@ void individualStats()
 		strcpy(winnercan,"Rahul Gandhi");
 
 	printf("\nThere are %d voter(s) \n",count);
-	printf("\nTotal Votes issued for candidates (votes - nota): %d\n",vcount);
+	printf("\nTotal Votes issued for candidates (votes - nota - missed): %d\n",vcount);
 	printf("\n Candidate 1 (%s)       got %d votes",candidates[0],candidatevotes[0]);
 	printf("\n Candidate 2 (%s)    got %d votes",candidates[1],candidatevotes[1]);
 	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidatevotes[2]);
 	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
 	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
 	printf("\n██████████████ELECTION WINNER ██████████████ \n");
-	printf(" \t\t\t\t%s\n           with Largest Votes %d\n████████████████████████████████████████████\n\n",winnercan,largest);
+	printf(" \t\t\t\t%s\n            with Largest Votes-%d\n████████████████████████████████████████████\n\n",winnercan,largest);
 
 }
 
@@ -344,16 +372,16 @@ void display()
 int main(void) 
 {
 	srand(time(0));
-	//typewriter("Hello! Welcome To the program \nThis is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063). \nThis program is a menu driven program which also focuses on ease of use and helping us to understand C data structures better. \n\t\t\t\t\t\tThank you.\n", 35);
+	typewriter("Hello! Welcome To the program \nThis is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063). \nThis program is a menu driven program which also focuses on ease of use and helping us to understand C data structures better. \n\t\t\t\t\t\tThank you.\n", 35);
 	int ch, i, n; 
 	while (1)
 	{
 		printf("\n ██████████--Menu--██████████\n");
-		typewriter("\n1.Insert n details of voters ",35);
-		typewriter("\n2.Insert at beginning",35);
+		typewriter("\n1.Insert n details of voters manually ",35);
+		typewriter("\n2.Insert voter details manually",35);
 		typewriter("\n3.Random Generate n voters",35);
-		typewriter("\n4.Display Calulated stats(classification based stats)",35);
-		typewriter("\n5.Display Individual Candidate stats(classification based candidate)",35);
+		typewriter("\n4.Display Calulated stats(classification based stats)",30);
+		typewriter("\n5.Display Individual Candidate stats(classification based candidate)",30);
 		typewriter("\n6.Display voters",35);
 		typewriter("\n7.Exit",35);
 		printf("\n█████████████████████████████\n\n");
