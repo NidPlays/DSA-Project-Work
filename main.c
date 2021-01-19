@@ -2,6 +2,7 @@
 Voting System Simulation using linked list (Project)
 This is a custom voting system developed jointly by Nidish(094), Phanish(100) and Hemanth (063).
 Do not use this code without permission from the authors ^^
+it is meant to be run in stacked mode not side-by-side mode in settings of repl
 */
 
 #include <stdio.h>
@@ -14,32 +15,30 @@ Do not use this code without permission from the authors ^^
 int count=0;
 //add more pincode then increase range in randrompincodegen
 int randrompincode[]={560098,560072,560004,560062,560085,560090,560070,560066,560050,560008};
-
+//does micro sleep for rate higher rate slower typewriter, letter is the char buffer
 void typewriter(const char* letter, int rate) {
   for (int i = 0; letter[i] != '\0'; i++) {
     printf("%c", letter[i]);
-    fflush(stdout);//flushes the buffer
-    // 1,000,000
-    // 1,000 = 1 millisecond
-	//added stuff for nid test 1
-
-    usleep(100 * rate);//does micro sleep for rate higher rate slower typewriter, letter is the char buffer
+    fflush(stdout);//flushes the buffer::
+    usleep(100 * rate);
   }
 }
-
+//The function randomly generates the inputs between the upper and the lower limits(range).
 int singlerand(int lower, int upper) 
 { 
 	int num = (rand() % (upper - lower + 1)) + lower;
 	// printf("%d\n",num); //for debugging:
 	return num;
 }
-
+//generates random pincode using above function
 int randrompincodegen()
 {
-	//i think its done
 	int i= singlerand(0, 9);
 	return randrompincode[i];
 }
+
+//This is the main structure which 
+//is used to store data
 
 struct node
 {
@@ -50,6 +49,9 @@ struct node
 	struct node * next;
 }*first = NULL, *last = NULL, *temp = NULL, *temp1 = NULL;
 
+
+//create a node and adds it to link list
+//this is manual insertion
 void create()
 {
 	int voterid,age,pincode,gender;
@@ -95,13 +97,16 @@ void create()
 	printf("| |              | |  | |              | |  | |              | |  | |              | |  | |              | |  \n");
 	printf("| '--------------' |  | '--------------' |  | '--------------' |  | '--------------' |  | '--------------' |  \n");
 	printf(" '----------------'    '----------------'    '----------------'    '----------------'    '----------------'   \n");
-	printf("\n     Murthy             Ramprasad              GuruPrasad               Modi               Rahul Gandhi    \n");
+	printf("          |                     |                     |                     |                     |           \n");
+	printf("\n|      Murthy      |  |    Ramprasad     |  |    GuruPrasad    |  |       Modi       |  |   Rahul Gandhi   | \n");
 	
 	printf("\nEnter Your Choice: ");
 	scanf("%d",&temp->candidate);
 	temp->next = NULL;
 	count++;
 }
+
+//uses our random function to insert randomvoters 
 void createrandom()
 {
 	int missing= singlerand(0, 10);
@@ -123,6 +128,7 @@ void createrandom()
 	count++;
 }
 
+//inserts into linked list
 void insertrandomvoters(int n)
 {
 	for(int i=0;i<n;i++)
@@ -141,6 +147,7 @@ void insertrandomvoters(int n)
 	}
 }
 
+//finds the largest element in array
 int largestinArray(int arr[], int n)
 {
 	int i; 
@@ -151,6 +158,7 @@ int largestinArray(int arr[], int n)
     return max; 
 }
 
+//This function counts the number of voters, missed voters and nota and displays who won the election and candidate specific statistics
 void individualStats()
 {	
 	char candidates[5][20]={"Murthy","Ramprasad","GuruPrasad","Modi","Rahul Gandhi"};
@@ -217,11 +225,12 @@ void individualStats()
 	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidatevotes[2]);
 	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
 	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
-	printf("\n██████████████ELECTION WINNER ██████████████ \n");
+	printf("\n██████████████ ELECTION WINNER ██████████████ \n");
 	printf(" \t\t\t\t%s\n            with Largest Votes-%d\n████████████████████████████████████████████\n\n",winnercan,largest);
 
 }
 
+//This function is used to calculate statistics based on the various parameters that is given in the struct, i.e. voters in specific age group, gender of voters, total number of voters, nota voters and missed voters
 void calculatestats()
 {
 	if (first == NULL)
@@ -278,6 +287,7 @@ void calculatestats()
 	} */
 }
 
+//manual insertion at first
 void insertatfirst()
 {
 	create();
@@ -293,6 +303,7 @@ void insertatfirst()
 	}
 }
 
+//delete at front 
 void deletefront()
 {
 	temp = first;
@@ -315,6 +326,7 @@ void deletefront()
 	count--;
 }
 
+//displays the voter list
 void display()
 {
 	if (first == NULL)
@@ -326,19 +338,19 @@ void display()
 		temp = first;
 		printf("\nThere are %d voter(s) \n",count);
 		printf("The voter is \n\n");
-		printf("VoterID |  Age  |\tPincode |   gender  | Voted Candidate | Status \n");
+		printf("VoterID |  Age  |  Pincode  | gender  |  Voted Candidate  | Status | \n\n");
 		while (temp != NULL)
 		{
 			char missed[20];
 			if(temp->missed== miss)
-				strcpy(missed,"   Missed    ");
+				strcpy(missed,"Missed    ");
 			else
-				strcpy(missed,"   Not Missed ");
+				strcpy(missed,"Not Missed ");
 			char gender1[20];
 			if(temp->gender== male)
-				strcpy(gender1,"Male    ");
+				strcpy(gender1," Male  ");
 			else
-				strcpy(gender1,"Female ");
+				strcpy(gender1," Female ");
 			char candidate[20];
 			//1:Murthy \n 2:Ramprasad \n 3:GuruPrasad \n 4:Modi \n 5:Rahul Gandhi
 			switch(temp->candidate)
@@ -363,12 +375,13 @@ void display()
 			}
 			if(temp->missed== miss)
 				strcpy(candidate,"------    ");
-			printf("%d\t\t %d\t \t%d\t %s \t %s \t %s\n", temp->voterid,temp->age,temp->pincode,gender1,candidate,missed);
+			printf("%d\t\t %d\t \t%d\t %s \t %s \t   %s\n", temp->voterid,temp->age,temp->pincode,gender1,candidate,missed);
 			temp = temp->next;
 		}
 	}
 }
 
+//main function with the menu of the program
 int main(void) 
 {
 	srand(time(0));
@@ -399,7 +412,7 @@ int main(void)
 				insertatfirst();
 				break;
 			case 3:
-				printf("\nEnter the value of n ");
+				printf("\nEnter the value of n: ");
 				scanf("%d", &n);
 				insertrandomvoters(n);
 				break;
