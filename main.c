@@ -146,15 +146,19 @@ void insertrandomvoters(int n)
 		}
 	}
 }
-
+int max;
 //finds the largest element in array
 int largestinArray(int arr[], int n)
 {
 	int i; 
-    int max = arr[0]; 
+    max = arr[0]; 
     for (i = 1; i < n; i++) 
-        if (arr[i] > max) 
-            max = arr[i]; 
+	{
+		if (arr[i] > max) 
+			max = arr[i]; 
+		else if(arr[i]== max)
+			return -1;
+	} 
     return max; 
 }
 
@@ -205,6 +209,8 @@ void individualStats()
 	vcount -= missedv;
 	int n = sizeof(candidatevotes)/sizeof(candidatevotes[0]);
 	int largest = largestinArray(candidatevotes, n);
+	int samecandidates[5]={0};
+	
 
 	char winnercan[20];
 	if(candidatevotes[0]== largest)
@@ -225,9 +231,29 @@ void individualStats()
 	printf("\n Candidate 3 (%s)   got %d votes",candidates[2],candidatevotes[2]);
 	printf("\n Candidate 4 (%s)         got %d votes",candidates[3],candidatevotes[3]);
 	printf("\n Candidate 5 (%s) got %d votes\n",candidates[4],candidatevotes[4]);
-	printf("\n██████████████ ELECTION WINNER ██████████████ \n");
-	printf(" \t\t\t\t%s\n            with Largest Votes-%d\n████████████████████████████████████████████\n\n",winnercan,largest);
-
+	if(largest == -1)
+	{
+		printf("\nTwo Candidates have got same number of votes. \n");
+		for(int i=0;i<5;i++)
+		{
+			if(max==candidatevotes[i])
+			{
+				//printf("%d \n",i);//for debugging
+				samecandidates[i]=1;
+			}
+		}
+		for(int i=0;i<5;i++)
+		{
+			if(samecandidates[i]==1)
+				printf("The candidates who got same votes are %s with %d votes. \n",candidates[i],max);
+		}
+		printf("\n");
+	}
+	else
+	{
+		printf("\n██████████████ ELECTION WINNER ██████████████ \n");
+		printf(" \t\t\t\t%s\n            with Largest Votes-%d\n████████████████████████████████████████████\n\n",winnercan,largest);
+	}
 }
 
 //This function is used to calculate statistics based on the various parameters that is given in the struct, i.e. voters in specific age group, gender of voters, total number of voters, nota voters and missed voters
